@@ -1,6 +1,6 @@
 import PyPDF2
 import shutil
-import chromadb
+# import chromadb
 from sentence_transformers import SentenceTransformer
 
 
