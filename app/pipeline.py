@@ -1,4 +1,4 @@
-import PyPDF2
+# import PyPDF2
 import shutil
 # import chromadb
 from sentence_transformers import SentenceTransformer
