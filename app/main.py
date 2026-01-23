@@ -2,11 +2,14 @@ from fastapi import FastAPI, UploadFile, Query
 import shutil
 # import chromadb
 # from pipeline import extract_text, chunk_text, embed_chunks, save_pdf
-from app.pipeline import extract_text, chunk_text, embed_chunks, save_pdf
 # from pipeline import store_in_chroma
 from retrieval import embed_query, search_collection
-from sentence_transformers import SentenceTransformer
-from llm import generate_answer
+# from sentence_transformers import SentenceTransformer
+# from llm import generate_answer
+from app.pipeline import extract_text, chunk_text, embed_chunks, save_pdf
+from app.retrieval import embed_query, search_collection
+from app.llm import generate_answer
+
 
 app = FastAPI()
 
