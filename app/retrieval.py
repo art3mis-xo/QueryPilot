@@ -10,11 +10,18 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 def embed_query(query: str):
     return model.encode([query]).tolist()
 
-def search_collection(query_embedding, k=3):
-    results = collection.query(
-        query_embeddings=query_embedding,
-        n_results=k
-    )
-    return results
+# def search_collection(query_embedding, k=3):
+#     results = collection.query(
+#         query_embeddings=query_embedding,
+#         n_results=k
+#     )
+#     return results
+
+def search_collection(query: str, k: int = 3):
+    # Placeholder — will call VPS later
+    return [
+        "This is a placeholder context chunk."
+        "Vector DB will be connected later."
+    ]
 
 
