@@ -1,7 +1,8 @@
 from fastapi import FastAPI, UploadFile, Query
 import shutil
-import chromadb
+# import chromadb
 from pipeline import extract_text, chunk_text, embed_chunks, store_in_chroma, save_pdf
+# from pipeline import store_in_chroma
 from retrieval import embed_query, search_collection
 from sentence_transformers import SentenceTransformer
 from llm import generate_answer
@@ -9,27 +10,27 @@ from llm import generate_answer
 app = FastAPI()
 
 # Connect to Chroma service via HTTP
-client = chromadb.HttpClient(host="chromadb", port=8000)
-collection = client.get_or_create_collection(name="pdf_collection")
+# client = chromadb.HttpClient(host="chromadb", port=8000)
+# collection = client.get_or_create_collection(name="pdf_collection")
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-@app.get("/insert")
-def insert_dummy():
-    # Insert dummy vector
-    collection.add(
-        ids=["vec1"],
-        embeddings=[[0.1, 0.2, 0.3]],
-        metadatas=[{"label": "dummy"}]
-    )
-    return {"status": "inserted"}
+# @app.get("/insert")
+# def insert_dummy():
+#     # Insert dummy vector
+#     collection.add(
+#         ids=["vec1"],
+#         embeddings=[[0.1, 0.2, 0.3]],
+#         metadatas=[{"label": "dummy"}]
+#     )
+#     return {"status": "inserted"}
 
-@app.get("/query")
-def query_dummy():
-    results = collection.query(
-        query_embeddings=[[0.1, 0.2, 0.3]],
-        n_results=1
-    )
-    return results
+# @app.get("/query")
+# def query_dummy():
+#     results = collection.query(
+#         query_embeddings=[[0.1, 0.2, 0.3]],
+#         n_results=1
+#     )
+#     return results
 
 @app.post("/upload")
 async def upload_pdf(file: UploadFile):
@@ -47,21 +48,21 @@ async def upload_pdf(file: UploadFile):
 #     store_in_chroma(chunks, embeddings)     # Step 5: store
 #     return {"status": "ingested"}
 
-@app.post("/ingest")
-async def ingest_pdf(file: UploadFile):
-    # Step 1: Save PDF directly to /data
-    file_path = f"/data/{file.filename}"
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-    # Step 2: Extract text
-    text_pages = extract_text(file_path)
-    # Step 3: Chunk text
-    chunks = chunk_text(text_pages)
-    # Step 4: Embed chunks
-    embeddings = embed_chunks(chunks)
-    # Step 5: Store in Chroma
-    store_in_chroma(chunks, embeddings)
-    return {"status": "ingested", "chunks": len(chunks)}
+# @app.post("/ingest")
+# async def ingest_pdf(file: UploadFile):
+#     # Step 1: Save PDF directly to /data
+#     file_path = f"/data/{file.filename}"
+#     with open(file_path, "wb") as buffer:
+#         shutil.copyfileobj(file.file, buffer)
+#     # Step 2: Extract text
+#     text_pages = extract_text(file_path)
+#     # Step 3: Chunk text
+#     chunks = chunk_text(text_pages)
+#     # Step 4: Embed chunks
+#     embeddings = embed_chunks(chunks)
+#     # Step 5: Store in Chroma
+#     store_in_chroma(chunks, embeddings)
+#     return {"status": "ingested", "chunks": len(chunks)}
 
 @app.get("/search")
 def search(query: str, k: int = 3):
